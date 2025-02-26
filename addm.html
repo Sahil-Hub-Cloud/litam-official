@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Portal - Loyola Institutes</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 30px;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        nav ul li a:hover {
+            color: #ffcccb;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 1.8em;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .container {
+            margin: 50px auto;
+            width: 80%;
+            max-width: 500px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transition: 0.5s;
+        }
+        .full-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .hidden { display: none; }
+        .form-container {
+            background: white;
+            color: black;
+            padding: 50px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 700px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+        input, select, button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background: #f39c12;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #e67e22;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Submission page styles */
+        .submission-container {
+            margin: 50px auto;
+            width: 80%;
+            max-width: 700px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transition: 0.5s;
+        }
+        .application-details {
+            background: white;
+            color: black;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: left;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .detail-row {
+            display: flex;
+            margin: 10px 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .detail-label {
+            font-weight: bold;
+            width: 40%;
+        }
+        .detail-value {
+            width: 60%;
+        }
+        .success-message {
+            color: #2ecc71;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        function showForm(course) {
+            document.getElementById('selectedCourse').innerText = course;
+            document.getElementById('selectedCourseInput').value = course;
+            document.getElementById('applicationForm').classList.remove('hidden');
+        }
+
+        function closeForm() {
+            document.getElementById('applicationForm').classList.add('hidden');
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+
+            // Hide main sections and form
+            document.getElementById('mainSection').classList.add('hidden');
+            document.getElementById('applicationForm').classList.add('hidden');
+
+            // Show submission section
+            document.getElementById('submissionSection').classList.remove('hidden');
+
+            // Update header
+            document.querySelector('header').innerText = 'Application Submitted';
+
+            // Get form data
+            const formData = new FormData(event.target);
+
+            // Display the data
+            document.getElementById('course').textContent = formData.get('course');
+            document.getElementById('firstName').textContent = formData.get('firstName');
+            document.getElementById('lastName').textContent = formData.get('lastName');
+            document.getElementById('dob').textContent = formData.get('dob');
+            document.getElementById('mobile').textContent = formData.get('mobile');
+            document.getElementById('email').textContent = formData.get('email');
+            document.getElementById('branch').textContent = formData.get('branch');
+
+            // Generate and display application ID
+            const applicationId = "APP" + Date.now().toString().slice(-6);
+            document.getElementById('applicationId').textContent = applicationId;
+        }
+
+        function restart() {
+            // Hide submission section
+            document.getElementById('submissionSection').classList.add('hidden');
+
+            // Show main section
+            document.getElementById('mainSection').classList.remove('hidden');
+
+            // Update header
+            document.querySelector('header').innerText = 'Admission Portal';
+
+            // Reset form if needed
+            document.getElementById('applicationFormElement').reset();
+        }
+    </script>
+</head>
+<body>
+    <header>Admission Portal</header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="abo.html">About</a></li>
+            <li><a href="u.html">Gallery</a></li>
+            <li><a href="q.html">skill hub</a></li>
+            <li><a href="con.html">Contacts</a></li>
+            <li><a href="creator.html">Creator</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main section with course buttons -->
+    <div id="mainSection" class="container">
+        <button onclick="showForm('Diploma')">Diploma</button>
+        <button onclick="showForm('B.Tech')">B.Tech</button>
+        <button onclick="showForm('MBA')">MBA</button>
+    </div>
+
+    <!-- Application form section -->
+    <div id="applicationForm" class="full-page hidden">
+        <div class="form-container" onclick="event.stopPropagation();">
+            <button onclick="closeForm()">×</button>
+            <h2>Application Form - <span id="selectedCourse"></span></h2>
+            <form id="applicationFormElement" onsubmit="submitForm(event)">
+                <input type="hidden" id="selectedCourseInput" name="course">
+                <input type="text" name="firstName" placeholder="First Name" required>
+                <input type="text" name="lastName" placeholder="Last Name" required>
+                <label for="dob">Date of Birth</label>
+                <input type="date" name="dob" required>
+                <input type="tel" name="mobile" placeholder="Mobile Number" required>
+                <input type="email" name="email" placeholder="Email ID" required>
+                <label for="branch">Select Favourite Branch</label>
+                <select name="branch" required>
+                    <option value="">Select Branch</option>
+                    <option value="CSE">Computer Science</option>
+                    <option value="ECE">Electronics & Communication</option>
+                    <option value="MECH">Mechanical Engineering</option>
+                    <option value="CIVIL">Civil Engineering</option>
+                    <option value="MBA">MBA</option>
+                </select>
+                <button type="submit">Apply Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Submission details section -->
+    <div id="submissionSection" class="submission-container hidden">
+        <div class="success-message">
+            <p>Thank you for your application!</p>
+            <p>Your application has been successfully submitted.</p>
+        </div>
+
+        <div class="application-details">
+            <h2>Application Details:</h2>
+
+            <div class="detail-row">
+                <div class="detail-label">Application ID:</div>
+                <div class="detail-value" id="applicationId"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Course:</div>
+                <div class="detail-value" id="course"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">First Name:</div>
+                <div class="detail-value" id="firstName"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Last Name:</div>
+                <div class="detail-value" id="lastName"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Date of Birth:</div>
+                <div class="detail-value" id="dob"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Mobile Number:</div>
+                <div class="detail-value" id="mobile"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Email:</div>
+                <div class="detail-value" id="email"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Selected Branch:</div>
+                <div class="detail-value" id="branch"></div>
+            </div>
+        </div>
+
+        <button onclick="restart()">Start New Application</button>
+    </div>
+</body>
+</html>
